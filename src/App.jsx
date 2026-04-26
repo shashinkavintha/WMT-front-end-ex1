@@ -8,9 +8,31 @@ function App() {
   });
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Submitted: ${JSON.stringify(formData)}`);
+    
+    // Methane oyage Backend Railway URL eka thiyenna ona
+    const BACKEND_URL = "https://wmt-lab-test-ex1-production.up.railway.app";
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert(`✅ Success: ${data.message}`);
+      } else {
+        alert("❌ Something went wrong!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("❌ Could not connect to backend!");
+    }
   };
 
   return (
